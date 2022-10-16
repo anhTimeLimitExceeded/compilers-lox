@@ -140,6 +140,8 @@ public class Scanner {
                 // A comment goes until the end of the line.
                 while (peek() != '\n' && !isAtEnd())
                     advance();
+            } else if (match('*')) {
+                blockComment();
             } else {
                 addToken(SLASH);
             }
@@ -216,6 +218,29 @@ public class Scanner {
         // Trim the surrounding quotes.
         String value = source.substring(start + 1, current - 1);
         addToken(STRING, value);
+    }
+
+    private void blockComment() {
+        int count = 1;
+        while (count != 0 && !isAtEnd()) {
+            if (peek() == '\n')
+                line++;
+
+            if (peek() == '/' && peekNext() == '*') {
+                advance();
+                count++;
+            }
+
+            if (peek() == '*' && peekNext() == '/') {
+                advance();
+                count--;
+            }
+            advance();
+        }
+
+        if (isAtEnd() && count != 0) {
+            reporter.error(line, "Unterminated block comment.");
+        }
     }
 
     private boolean match(char expected) {

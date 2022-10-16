@@ -1,0 +1,12 @@
+var a = (5 - (3 - 1)) + -1;
+print a;
+/* some comments
+
+/* with nested
+closing nested but not outer*/
+*/
+print a;
+
+/* some comments */
+
+print a;
