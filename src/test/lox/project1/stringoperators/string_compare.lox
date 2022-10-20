@@ -1,0 +1,3 @@
+print "hello" > "world"; //expect false
+print "hello" > "a"; // expect true
+print "hello" >= "hello"; //expect true
