@@ -218,7 +218,8 @@ public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
         case STAR:
             checkNumberOperands(expr.operator, left, right);
             return (double) left * (double) right;
-
+        case COMMA:
+            return right;
         default:
             // Unreachable.
             return null;

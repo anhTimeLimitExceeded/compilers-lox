@@ -1,0 +1,43 @@
+// Taken from https://en.wikipedia.org/wiki/Comma_operator
+/**
+ *  Assigns value of b into i.
+ *  Commas act as separators in the first line and as an operator in the second line.
+ *  Results: a=1, b=2, c=3, i=2
+ */
+var a=1;
+var b=2;
+var i = (a, b);
+print i; // expect 2
+
+/**
+ *  Increases value of a by 2, then assigns value of resulting operation a + b into i.
+ *  Commas act as separators in the first line and as an operator in the second line.
+ *  Results: a=3, b=2, c=3, i=5
+ */
+var a=1;
+var b=2;
+var i = (a = a + 2, a + b);
+print i; //expect 5
+/**
+ *  Increases value of a by 2, then stores value of a to i, and discards unused
+ *  values of resulting operation a + b.
+ *  Equivalent to: (i = (a += 2)), a + b;
+ *  Commas act as separators in the first line and as an operator in the third line.
+ *  Results: a=3, b=2, c=3, i=3
+ */
+var a=1;
+var b=2;
+var c=3;
+var i;
+i = a = a + 2, a + b;
+print i; // expect 3
+/**
+ *  Commas act as separators in the first line and as an operator in the second line.
+ *  Assigns value of c into i, discarding the unused a and b values.
+ *  Results: a=1, b=2, c=3, i=3
+ */
+var a=1;
+var b=2;
+var c=3;
+var i = (a, b, c);
+print i; // expect 3;

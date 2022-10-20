@@ -67,7 +67,7 @@ public class Parser {
     }
 
     private Expr expression() {
-        return assignment();
+        return sequence();
     }
 
     private Stmt declaration() {
@@ -251,6 +251,16 @@ public class Parser {
 
         consume(RIGHT_BRACE, "Expect '}' after block.");
         return statements;
+    }
+
+    private Expr sequence() {
+        Expr expr = assignment();
+        if (match(COMMA)) {
+            Token operator = previous();
+            Expr right = sequence();
+            expr = new Expr.Binary(expr, operator, right);
+        }
+        return expr;
     }
 
     private Expr assignment() {
