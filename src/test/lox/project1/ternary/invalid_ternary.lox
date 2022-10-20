@@ -1,0 +1,2 @@
+print "true" ? "missing colon";
+print "true" ? "missing" : "semicolon"

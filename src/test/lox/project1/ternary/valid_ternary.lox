@@ -1,0 +1,2 @@
+print "false" ? "yes" : "no"; // expect "yes"
+print nil ? "yes" : "no"; // expect "no"

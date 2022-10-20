@@ -150,6 +150,12 @@ public class AstPrinter implements Expr.Visitor<String>, Stmt.Visitor<String> {
     }
 
     @Override
+    public String visitTernaryExpr(Expr.Ternary expr) {
+        //#TODO: generalize TernaryExpr to support other operators other than '?'
+        return parenthesize("?", expr.condition, expr.left, expr.right);
+    }
+
+    @Override
     public String visitThisExpr(Expr.This expr) {
         return "this";
     }

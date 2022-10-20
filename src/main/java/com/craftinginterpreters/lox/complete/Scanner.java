@@ -1,49 +1,11 @@
 package com.craftinginterpreters.lox.complete;
 
-import static com.craftinginterpreters.lox.complete.TokenType.AND;
-import static com.craftinginterpreters.lox.complete.TokenType.BANG;
-import static com.craftinginterpreters.lox.complete.TokenType.BANG_EQUAL;
-import static com.craftinginterpreters.lox.complete.TokenType.CLASS;
-import static com.craftinginterpreters.lox.complete.TokenType.COMMA;
-import static com.craftinginterpreters.lox.complete.TokenType.DOT;
-import static com.craftinginterpreters.lox.complete.TokenType.ELSE;
-import static com.craftinginterpreters.lox.complete.TokenType.EOF;
-import static com.craftinginterpreters.lox.complete.TokenType.EQUAL;
-import static com.craftinginterpreters.lox.complete.TokenType.EQUAL_EQUAL;
-import static com.craftinginterpreters.lox.complete.TokenType.FALSE;
-import static com.craftinginterpreters.lox.complete.TokenType.FOR;
-import static com.craftinginterpreters.lox.complete.TokenType.FUN;
-import static com.craftinginterpreters.lox.complete.TokenType.GREATER;
-import static com.craftinginterpreters.lox.complete.TokenType.GREATER_EQUAL;
-import static com.craftinginterpreters.lox.complete.TokenType.IDENTIFIER;
-import static com.craftinginterpreters.lox.complete.TokenType.IF;
-import static com.craftinginterpreters.lox.complete.TokenType.LEFT_BRACE;
-import static com.craftinginterpreters.lox.complete.TokenType.LEFT_PAREN;
-import static com.craftinginterpreters.lox.complete.TokenType.LESS;
-import static com.craftinginterpreters.lox.complete.TokenType.LESS_EQUAL;
-import static com.craftinginterpreters.lox.complete.TokenType.MINUS;
-import static com.craftinginterpreters.lox.complete.TokenType.NIL;
-import static com.craftinginterpreters.lox.complete.TokenType.NUMBER;
-import static com.craftinginterpreters.lox.complete.TokenType.OR;
-import static com.craftinginterpreters.lox.complete.TokenType.PLUS;
-import static com.craftinginterpreters.lox.complete.TokenType.PRINT;
-import static com.craftinginterpreters.lox.complete.TokenType.RETURN;
-import static com.craftinginterpreters.lox.complete.TokenType.RIGHT_BRACE;
-import static com.craftinginterpreters.lox.complete.TokenType.RIGHT_PAREN;
-import static com.craftinginterpreters.lox.complete.TokenType.SEMICOLON;
-import static com.craftinginterpreters.lox.complete.TokenType.SLASH;
-import static com.craftinginterpreters.lox.complete.TokenType.STAR;
-import static com.craftinginterpreters.lox.complete.TokenType.STRING;
-import static com.craftinginterpreters.lox.complete.TokenType.SUPER;
-import static com.craftinginterpreters.lox.complete.TokenType.THIS;
-import static com.craftinginterpreters.lox.complete.TokenType.TRUE;
-import static com.craftinginterpreters.lox.complete.TokenType.VAR;
-import static com.craftinginterpreters.lox.complete.TokenType.WHILE;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static com.craftinginterpreters.lox.complete.TokenType.*;
 
 public class Scanner {
     private static final Map<String, TokenType> keywords;
@@ -123,6 +85,12 @@ public class Scanner {
         case '*':
             addToken(STAR);
             break; // [slash]
+        case '?':
+            addToken(QUESTION);
+            break;
+        case ':':
+            addToken(COLON);
+            break;
         case '!':
             addToken(match('=') ? BANG_EQUAL : BANG);
             break;

@@ -1,5 +1,7 @@
 package com.craftinginterpreters.lox.complete;
 
+import com.craftinginterpreters.lox.ch05.AstPrinter;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;

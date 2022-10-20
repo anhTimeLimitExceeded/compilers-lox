@@ -216,6 +216,14 @@ public class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
     }
 
     @Override
+    public Void visitTernaryExpr(Expr.Ternary expr) {
+        resolve(expr.condition);
+        resolve(expr.left);
+        resolve(expr.right);
+        return null;
+    }
+
+    @Override
     public Void visitThisExpr(Expr.This expr) {
         if (currentClass == ClassType.NONE) {
             reporter.error(expr.keyword, "Can't use 'this' outside of a class.");

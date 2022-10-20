@@ -22,6 +22,8 @@ public abstract class Expr {
 
         R visitSuperExpr(Super expr);
 
+        R visitTernaryExpr(Ternary expr);
+
         R visitThisExpr(This expr);
 
         R visitUnaryExpr(Unary expr);
@@ -167,6 +169,23 @@ public abstract class Expr {
 
         public final Token keyword;
         public final Token method;
+    }
+
+    public static class Ternary extends Expr {
+        public Ternary(Expr condition, Expr left, Expr right) {
+            this.condition = condition;
+            this.left = left;
+            this.right = right;
+        }
+
+        @Override
+        public <R> R accept(Visitor<R> visitor) {
+            return visitor.visitTernaryExpr(this);
+        }
+
+        public final Expr condition;
+        public final Expr left;
+        public final Expr right;
     }
 
     public static class This extends Expr {
