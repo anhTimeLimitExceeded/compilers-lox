@@ -91,6 +91,9 @@ public class Scanner {
         case ':':
             addToken(COLON);
             break;
+        case '%':
+            addToken(PERCENT);
+            break;
         case '!':
             addToken(match('=') ? BANG_EQUAL : BANG);
             break;
@@ -155,17 +158,20 @@ public class Scanner {
     private void number() {
         while (isDigit(peek()))
             advance();
-
+        boolean floatable = false;
         // Look for a fractional part.
         if (peek() == '.' && isDigit(peekNext())) {
             // Consume the "."
             advance();
-
+            floatable = true;
             while (isDigit(peek()))
                 advance();
         }
-
-        addToken(NUMBER, Double.parseDouble(source.substring(start, current)));
+        if (floatable) {
+            addToken(NUMBER, Double.parseDouble(source.substring(start, current)));
+        } else {
+            addToken(NUMBER, Integer.parseInt(source.substring(start, current)));
+        }
     }
 
     private void string() {

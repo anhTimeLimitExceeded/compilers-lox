@@ -188,6 +188,11 @@ public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
         case EQUAL_EQUAL:
             return isEqual(left, right);
         case GREATER:
+            if (left instanceof Integer && right instanceof Integer) {
+                return (int) left > (int) right;
+            } // [plus]
+            if (left instanceof Integer) left = ((Integer) left).doubleValue();
+            if (right instanceof Integer) right = ((Integer) right).doubleValue();
             if (left instanceof Double && right instanceof Double) {
                 return (double) left > (double) right;
             } // [plus]
@@ -198,6 +203,11 @@ public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
 
             throw new RuntimeError(expr.operator, "Operands must be two numbers or two strings.");
         case GREATER_EQUAL:
+            if (left instanceof Integer && right instanceof Integer) {
+                return (int) left >= (int) right;
+            } // [plus]
+            if (left instanceof Integer) left = ((Integer) left).doubleValue();
+            if (right instanceof Integer) right = ((Integer) right).doubleValue();
             if (left instanceof Double && right instanceof Double) {
                 return (double) left >= (double) right;
             } // [plus]
@@ -208,6 +218,11 @@ public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
 
             throw new RuntimeError(expr.operator, "Operands must be two numbers or two strings.");
         case LESS:
+            if (left instanceof Integer && right instanceof Integer) {
+                return (int) left < (int) right;
+            } // [plus]
+            if (left instanceof Integer) left = ((Integer) left).doubleValue();
+            if (right instanceof Integer) right = ((Integer) right).doubleValue();
             if (left instanceof Double && right instanceof Double) {
                 return (double) left < (double) right;
             } // [plus]
@@ -218,6 +233,11 @@ public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
 
             throw new RuntimeError(expr.operator, "Operands must be two numbers or two strings.");
         case LESS_EQUAL:
+            if (left instanceof Integer && right instanceof Integer) {
+                return (int) left <= (int) right;
+            } // [plus]
+            if (left instanceof Integer) left = ((Integer) left).doubleValue();
+            if (right instanceof Integer) right = ((Integer) right).doubleValue();
             if (left instanceof Double && right instanceof Double) {
                 return (double) left <= (double) right;
             } // [plus]
@@ -228,9 +248,19 @@ public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
 
             throw new RuntimeError(expr.operator, "Operands must be two numbers or two strings.");
         case MINUS:
+            if (left instanceof Integer && right instanceof Integer) {
+                return (int) left - (int) right;
+            } // [plus]
+            if (left instanceof Integer) left = ((Integer) left).doubleValue();
+            if (right instanceof Integer) right = ((Integer) right).doubleValue();
             checkNumberOperands(expr.operator, left, right);
             return (double) left - (double) right;
         case PLUS:
+            if (left instanceof Integer && right instanceof Integer) {
+                return (int) left + (int) right;
+            } // [plus]
+            if (left instanceof Integer) left = ((Integer) left).doubleValue();
+            if (right instanceof Integer) right = ((Integer) right).doubleValue();
             if (left instanceof Double && right instanceof Double) {
                 return (double) left + (double) right;
             } // [plus]
@@ -240,10 +270,25 @@ public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
             }
 
             throw new RuntimeError(expr.operator, "Operands must be two numbers or two strings.");
+        case PERCENT:
+            if (left instanceof Integer && right instanceof Integer) {
+                return (int) left % (int) right;
+            } // [plus]
+            throw new RuntimeError(expr.operator, "Operands must be two integers.");
         case SLASH:
+            if (left instanceof Integer && right instanceof Integer) {
+                return (int) left / (int) right;
+            } // [plus]
+            if (left instanceof Integer) left = ((Integer) left).doubleValue();
+            if (right instanceof Integer) right = ((Integer) right).doubleValue();
             checkNumberOperands(expr.operator, left, right);
             return (double) left / (double) right;
         case STAR:
+            if (left instanceof Integer && right instanceof Integer) {
+                return (int) left * (int) right;
+            } // [plus]
+            if (left instanceof Integer) left = ((Integer) left).doubleValue();
+            if (right instanceof Integer) right = ((Integer) right).doubleValue();
             checkNumberOperands(expr.operator, left, right);
             return (double) left * (double) right;
         case COMMA:
@@ -364,8 +409,12 @@ public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
         case BANG:
             return !isTruthy(right);
         case MINUS:
-            checkNumberOperand(expr.operator, right);
-            return -(double) right;
+            if (checkIntegerOperand(right)) {
+                return -(Integer) right;
+            } else {
+                checkNumberOperand(expr.operator, right);
+                return -(double) right;
+            }
 
         default:
             // Unreachable.
@@ -388,13 +437,22 @@ public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
     }
 
     private void checkNumberOperand(Token operator, Object operand) {
-        if (operand instanceof Double)
+        if (operand instanceof Double || operand instanceof Integer)
             return;
         throw new RuntimeError(operator, "Operand must be a number.");
     }
 
+    private boolean checkIntegerOperand(Object operand) {
+        return operand instanceof Integer;
+    }
+
+    private boolean checkIntegerOperands(Object left, Object right) {
+        return left instanceof Integer && right instanceof Integer;
+    }
+
     private void checkNumberOperands(Token operator, Object left, Object right) {
-        if (left instanceof Double && right instanceof Double)
+        if ((left instanceof Double || left instanceof Integer)
+                && (right instanceof Double || right instanceof Integer))
             return;
         // [operand]
         throw new RuntimeError(operator, "Operands must be numbers.");

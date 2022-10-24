@@ -28,4 +28,13 @@ public class LoxTest {
             Lox.run(s);
         }), "Not all files produced expected output");
     }
+
+    @Test
+    void custom() throws IOException {
+        List<String> sourceDirs = List.of("src/test/lox/ch08/number");
+        assertTrue(Util.runFiles(sourceDirs, s -> {
+            Lox.reset();
+            Lox.run(s);
+        }), "Not all files produced expected output");
+    }
 }
